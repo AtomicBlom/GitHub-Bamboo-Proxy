@@ -4,7 +4,7 @@ import express from 'express'
 import proxy from '../routes/index.js'
 
 var app = express();
-app.use('/', proxy);
+app.use('/bamboo/', proxy);
 
 const server = app.listen(process.env.SERVER_PORT, process.env.SERVER_HOST, () => {
     var host = server.address().address;

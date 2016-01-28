@@ -17,13 +17,13 @@ if (eventTypesRaw != null) {
 var express = require('express');
 var router = express.Router();
 
-router.get("/bamboo", function(req, res) {
+router.get("/", function(req, res) {
     return res.end("GitHub Bamboo Proxy");
 });
 
 console.info("registered GET /bamboo");
 
-router.post("/bamboo", function(req, res) {
+router.post("/", function(req, res) {
     var auth, auto_trigger, bamboo_uri, bamboo_url, build_key, data, error, error1, eventType, pass, query, room, user;
     user = process.env.BAMBOO_USERNAME;
     pass = process.env.BAMBOO_PASSWORD;
