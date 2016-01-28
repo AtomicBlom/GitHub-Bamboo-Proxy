@@ -47,11 +47,11 @@ router.post("/", function(req, res) {
                 //bamboo_uri = bamboo_url + "/rest/api/latest/queue/" + build_key + "?bamboo.variable.pull_ref=" + data.pull_request.head.ref + "%26bamboo.variable.pull_sha=" + data.pull_request.head.sha + "%26bamboo.variable.pull_num=" + data.number;
                 bamboo_uri = bamboo_url + "/rest/api/latest/queue/" + build_key;
                 //+ "?bamboo.variable.pull_ref=" + data.pull_request.head.ref + "%26bamboo.variable.pull_sha=" + data.pull_request.head.sha + "%26bamboo.variable.pull_num=" + data.number;
-                var bambooVariables = {
-                    'bamboo.variable.pull_ref': data.pull_request.head.ref,
-                    'bamboo.variable.pull_sha': data.pull_request.head.sha,
-                    'bamboo.variable.pull_num': data.number
-                };
+                var bambooVariables = [
+                    {'bamboo.variable.pull_ref': data.pull_request.head.ref},
+                    {'bamboo.variable.pull_sha': data.pull_request.head.sha},
+                    {'bamboo.variable.pull_num': data.number}
+                ];
 
                 var headers = {
                     Authorization: "Basic " + auth,
