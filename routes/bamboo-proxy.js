@@ -16,7 +16,6 @@ if (eventTypesRaw != null) {
 
 var express = require('express');
 var fetch = require('node-fetch');
-var FormData = require('form-data');
 var router = express.Router();
 
 router.get("/", function(req, res) {
@@ -38,7 +37,6 @@ router.post("/", function(req, res) {
     if (!bamboo_url) {
         return res.end("");
     }
-    bamboo_url = bamboo_url.replace(/\/$/, "");
 
     data = req.body;
     eventType = req.headers["x-github-event"];
@@ -46,21 +44,12 @@ router.post("/", function(req, res) {
     try {
         if (indexOf.call(eventTypes, eventType) >= 0) {
             if (auto_trigger) {
-                bamboo_uri = bamboo_url + "/rest/api/latest/queue/" + build_key;
+                bamboo_uri = bamboo_url + "/rest/api/latest/queue/" + build_key + "?bamboo.variable.pull_ref=" + data.pull_request.head.ref + "%26bamboo.variable.pull_sha=" + data.pull_request.head.sha + "%26bamboo.variable.pull_num=" + data.number;
 
-
-                var form = new FormData();
-                form.append('bamboo.variable.pull_ref', data.pull_request.head.ref);
-                form.append('bamboo.variable.pull_sha', data.pull_request.head.sha);
-                form.append('bamboo.variable.pull_num', data.number);
-
-                var headers = {
-                    'Authorization': "Basic " + auth,
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                };
+                var headers = { Authorization: "Basic " + auth};
                 console.log("Invoking " + bamboo_uri);
-                console.log("Headers: " + headers);
-                fetch(bamboo_uri, { method: 'POST', body: form, headers: form.getHeaders(headers) })
+                console.log("Headers: " + headers)
+                fetch(bamboo_uri, { method: 'POST', headers: headers })
                     .catch(function(rejection) {
                         return console.log("Encountered an error sending to bamboo " + rejection);
                     })
