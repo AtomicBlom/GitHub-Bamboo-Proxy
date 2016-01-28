@@ -43,21 +43,14 @@ router.post("/", function(req, res) {
     console.log("Processing event type " + eventType + "...");
     try {
         if (indexOf.call(eventTypes, eventType) >= 0) {
-            if (room) {
-                console.log("room " + room);
-                robot.messageRoom(room, "poke me to trigger build for pull request " + data.number + " of " + data.pull_request.head.repo.name + " " + bamboo_url + "/ajax/runParametrisedManualBuild.action?planKey=" + build_key + "&buildNumber=&customRevision=&key_pull_num=pull_num&variable_pull_num=" + data.number + "&key_pull_sha=pull_sha&variable_pull_sha=" + data.pull_request.head.sha + "&bamboo.successReturnMode=json&decorator=nothing&confirm=true");
-            }
             if (auto_trigger) {
                 bamboo_uri = bamboo_url + "/rest/api/latest/queue/" + build_key + "?bamboo.variable.pull_ref=" + data.pull_request.head.ref + "&bamboo.variable.pull_sha=" + data.pull_request.head.sha + "&bamboo.variable.pull_num=" + data.number;
-                req = robot.http(bamboo_uri);
-                req.headers({
-                    Authorization: "Basic " + auth
-                });
-                req.post()(function(err, res, body) {
-                    if (err) {
-                        return console.log("Encountered an error sending to bamboo " + err);
-                    }
-                });
+
+                var headers = { Authorization: "Basic " + auth};
+                fetch(bamboo_uri, { method: 'POST', headers: headers })
+                    .catch(function(rejection) {
+                        return console.log("Encountered an error sending to bamboo " + rejection);
+                    });
             }
         } else {
             console.log("Ignoring " + eventType + " event as it's not allowed.");
