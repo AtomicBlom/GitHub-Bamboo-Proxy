@@ -54,7 +54,10 @@ router.post("/", function(req, res) {
                 form.append('bamboo.variable.pull_sha', data.pull_request.head.sha);
                 form.append('bamboo.variable.pull_num', data.number);
 
-                var headers = { Authorization: "Basic " + auth};
+                var headers = {
+                    'Authorization': "Basic " + auth,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                };
                 console.log("Invoking " + bamboo_uri);
                 console.log("Headers: " + headers);
                 fetch(bamboo_uri, { method: 'POST', body: form, headers: form.getHeaders(headers) })
