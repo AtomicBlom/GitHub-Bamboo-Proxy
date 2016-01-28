@@ -60,7 +60,7 @@ router.post("/", function(req, res) {
                 };
                 console.log("Invoking " + bamboo_uri);
                 console.log(headers);
-                console.log(bambooVariables);
+                console.log(JSON.stringify(bambooVariables));
                 fetch(bamboo_uri, { method: 'POST', body: JSON.stringify(bambooVariables), headers: headers })
                     .catch(function(rejection) {
                         return console.log("Encountered an error sending to bamboo " + rejection);
