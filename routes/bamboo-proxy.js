@@ -51,7 +51,12 @@ router.post("/", function(req, res) {
                 fetch(bamboo_uri, { method: 'POST', headers: headers })
                     .catch(function(rejection) {
                         return console.log("Encountered an error sending to bamboo " + rejection);
-                    });
+                    })
+                    .then(function(res) {
+                        return res.text();
+                    }).then(function(body) {
+                    console.log(body);
+                });
             }
         } else {
             console.log("Ignoring " + eventType + " event as it's not allowed.");
