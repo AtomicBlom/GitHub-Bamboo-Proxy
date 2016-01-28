@@ -15,6 +15,7 @@ if (eventTypesRaw != null) {
 }
 
 var express = require('express');
+var fetch = require('node-fetch');
 var router = express.Router();
 
 router.get("/", function(req, res) {
