@@ -57,8 +57,7 @@ router.post("/", function(req, res) {
                 var headers = { Authorization: "Basic " + auth};
                 console.log("Invoking " + bamboo_uri);
                 console.log("Headers: " + headers);
-                console.log(form.getHeaders({ Authorization: "Basic " + auth}));
-                fetch(bamboo_uri, { method: 'POST', body: form, headers: headers })
+                fetch(bamboo_uri, { method: 'POST', body: form, headers: form.getHeaders(headers) })
                     .catch(function(rejection) {
                         return console.log("Encountered an error sending to bamboo " + rejection);
                     })
