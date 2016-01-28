@@ -39,7 +39,6 @@ router.post("/", function(req, res) {
     }
 
     data = req.body;
-    console.log(data);
     eventType = req.headers["x-github-event"];
     console.log("Processing event type " + eventType + "...");
     try {
@@ -48,6 +47,7 @@ router.post("/", function(req, res) {
                 bamboo_uri = bamboo_url + "/rest/api/latest/queue/" + build_key + "?bamboo.variable.pull_ref=" + data.pull_request.head.ref + "&bamboo.variable.pull_sha=" + data.pull_request.head.sha + "&bamboo.variable.pull_num=" + data.number;
 
                 var headers = { Authorization: "Basic " + auth};
+                console.log("Invoking " + bamboo_uri);
                 fetch(bamboo_uri, { method: 'POST', headers: headers })
                     .catch(function(rejection) {
                         return console.log("Encountered an error sending to bamboo " + rejection);
