@@ -38,6 +38,7 @@ router.post("/", function(req, res) {
     }
 
     data = req.body;
+    console.log(data);
     eventType = req.headers["x-github-event"];
     console.log("Processing event type " + eventType + "...");
     try {

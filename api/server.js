@@ -1,9 +1,11 @@
 require('dotenv').load();
 
 import express from 'express'
-import proxy from '../routes/index.js'
+import bodyParser from 'body-parser';
+import proxy from '../routes/bamboo-proxy.js'
 
 var app = express();
+app.use(bodyParser.json());
 app.use('/bamboo/', proxy);
 
 const server = app.listen(process.env.SERVER_PORT, process.env.SERVER_HOST, () => {
